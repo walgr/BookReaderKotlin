@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">BookReaderKotlin</string>
+    <string name="str_bookshelve">BookShelve</string>
+    <string name="str_user">User</string>
+    <string name="str_bookshop">BookShop</string>
+    <string name="str_bookinfo">BookInfo</string>
+    <string name="str_fontList">FontList</string>
+    <string name="str_addBookSuccess">add a book success!</string>
+</resources>
