@@ -16,7 +16,7 @@ data class BookInfo(
     @PrimaryKey @ColumnInfo(name = "id")
     var bookUrl: String = "",
     //小说章节网址
-    var bookChapterListUrl: String? = "",
+    var bookChapterListUrl: String = "",
     //小说名称
     var bookName: String = "",
     //小说封面图片地址
@@ -28,6 +28,6 @@ data class BookInfo(
 ) {
     //验证书籍信息是否合规
     fun isDataError(): Boolean {
-        return bookUrl.isNotEmpty()
+        return bookUrl.isEmpty()
     }
 }

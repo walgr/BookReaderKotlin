@@ -31,6 +31,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun initView() {
+        supportActionBar?.hide()
         viewPager.setScrollable(false)
         viewPager.adapter = MainViewPagerAdapter(
             fragments,
@@ -57,28 +58,29 @@ class MainActivity : BaseActivity() {
         }
     }
 
-    fun onFragmentViewClick(view: View) {
-        when (view.id) {
-            R.id.shop_add_book -> {
-                view.isClickable = false
-                BookInfoHelper.getBookInfo(
-                    shopFragment.binding.shopWeb.url,
-                    object : BookInfoHelper.OnGetBookInfoFinish {
-
-                        override fun onSuccess(bookInfo: BookInfo) {
-                            view.isClickable = true
-                            showSnackBarMsg(view,getString(R.string.str_addBookSuccess))
-                        }
-
-                        override fun onFail(msg: String) {
-                            view.isClickable = false
-                            showSnackBarMsg(view,msg)
-                        }
-
-                    })
-            }
-        }
-    }
+//    fun onFragmentViewClick(view: View) {
+//        when (view.id) {
+//            R.id.shop_add_book -> {
+//                view.isClickable = false
+//                BookInfoHelper.getBookInfo(
+//                    shopFragment.binding.shopWeb.url,
+//                    object : BookInfoHelper.OnGetBookInfoFinish {
+//
+//                        override fun onSuccess(bookInfo: BookInfo) {
+//                            view.isClickable = true
+//
+//                            showSnackBarMsg(view,getString(R.string.str_addBookSuccess))
+//                        }
+//
+//                        override fun onFail(msg: String) {
+//                            view.isClickable = false
+//                            showSnackBarMsg(view,msg)
+//                        }
+//
+//                    })
+//            }
+//        }
+//    }
 
     override fun onBackPressed() {
         //默认web网页回退-->到首页了再回到Home-->退出app

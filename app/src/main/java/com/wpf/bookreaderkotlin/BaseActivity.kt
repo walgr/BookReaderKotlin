@@ -16,17 +16,17 @@ import com.wpf.bookreaderkotlin.mvp.iview.BaseActivityIView
 open class BaseActivity: AppCompatActivity(),
     BaseActivityIView {
 
-    override fun getActivity(): Activity {
+    override fun getBaseActivity(): Activity {
         return this
     }
 
     override fun showToastMsg(msg: String) {
-        Toast.makeText(getActivity(),msg,Toast.LENGTH_SHORT).show()
+        Toast.makeText(getBaseActivity(),msg,Toast.LENGTH_SHORT).show()
     }
 
-    override fun showSnackBarMsg(view: View, msg: String) {
-        Snackbar.make(view,msg,Snackbar.LENGTH_SHORT).show()
+    override fun showSnackBarMsg(view: View?, msg: String) {
+        if(null != view) {
+            Snackbar.make(view, msg, Snackbar.LENGTH_SHORT).show()
+        }
     }
-
-
 }

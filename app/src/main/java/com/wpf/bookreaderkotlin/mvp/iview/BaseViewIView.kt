@@ -10,10 +10,11 @@ import android.app.Activity
 import android.view.View
 
 interface BaseViewIView {
+
     //获取上下文
-    fun getActivity(): Activity
+    fun getBaseActivity(): Activity
 
     fun showToastMsg(msg: String)
 
-    fun showSnackBarMsg(view: View, msg: String)
+    fun showSnackBarMsg(view: View?, msg: String)
 }

@@ -8,10 +8,34 @@ package com.wpf.bookreaderkotlin.data
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
+import androidx.room.ForeignKey
 import androidx.room.PrimaryKey
 
-@Entity(tableName = "BookChapterInfo")
+@Entity(
+    tableName = "BookChapterInfo",
+    primaryKeys = ["book_id", "chapter_id"],
+    foreignKeys = [ForeignKey(entity = BookInfo::class, parentColumns = ["id"], childColumns = ["book_id"])]
+)
 data class BookChapterInfo(
-    @PrimaryKey @ColumnInfo(name = "id")
-    var bookUrl: String = ""
+    /**
+     * 小说地址
+     */
+    @ColumnInfo(name = "book_id")
+    var bookUrl: String = "",
+
+    /**
+     * 章节地址
+     */
+    @ColumnInfo(name = "chapter_id")
+    var chapterUrl: String = "",
+
+    /**
+     * 章节名称
+     */
+    var chapterName: String? = "",
+
+    /**
+     * 章节内容
+     */
+    var chapterPageContent: String? = ""
 )

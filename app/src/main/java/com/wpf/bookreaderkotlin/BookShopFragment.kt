@@ -12,19 +12,27 @@ import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebChromeClient
 import android.webkit.WebViewClient
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.wpf.bookreaderkotlin.data.BookChapterInfo
+import com.wpf.bookreaderkotlin.data.BookInfo
 import com.wpf.bookreaderkotlin.databinding.FragmentShopBinding
 import com.wpf.bookreaderkotlin.utilities.InjectorUtils
 import com.wpf.bookreaderkotlin.utilities.shopUrl
-import com.wpf.bookreaderkotlin.viewmodels.BookShopViewModel
+import com.wpf.bookreaderkotlin.mvp.viewmodels.BookShopViewModel
+import com.wpf.bookreaderkotlin.utilities.BookChapterHelper
+import com.wpf.bookreaderkotlin.utilities.BookInfoHelper
 
-class BookShopFragment : Fragment() {
+class BookShopFragment : BaseFragment() {
+
+    private var isClick = false
 
     private val viewModel: BookShopViewModel by viewModels {
-        InjectorUtils.provideShopUrlViewModelFactory(MutableLiveData(shopUrl))
+        InjectorUtils.provideShopUrlViewModelFactory(
+            MutableLiveData(shopUrl),
+            InjectorUtils.getBookInfoRepository(requireContext())
+        )
     }
 
     lateinit var binding: FragmentShopBinding
@@ -46,11 +54,43 @@ class BookShopFragment : Fragment() {
             binding.shopWeb.loadUrl(loadUrl)
         })
 
-        binding.shopAddBook.setOnClickListener { view ->
-            if(context is MainActivity) {
-                (context as MainActivity).onFragmentViewClick(view)
-            }
-        }
+        binding.clickListener = createOnClickListener()
+    }
 
+    private fun createOnClickListener(): View.OnClickListener {
+        return View.OnClickListener { view ->
+            //            if(context is MainActivity) {
+//                (context as MainActivity).onFragmentViewClick(view)
+//            }
+            //获取小说成功
+            if (isClick) return@OnClickListener
+            isClick = true
+            BookInfoHelper.getBookInfo(
+                binding.shopWeb.url,
+                object : BookInfoHelper.OnGetBookInfoFinish {
+
+                    override fun onSuccess(bookInfo: BookInfo) {
+                        viewModel.insertBook(bookInfo)
+                        BookChapterHelper.getChapterList(bookInfo.bookUrl, bookInfo.bookChapterListUrl,
+                            object : BookChapterHelper.OnGetBookChapterFinish {
+                                override fun onSuccess(result: List<BookChapterInfo>) {
+                                    isClick = false
+                                    showSnackBarMsg(view, getString(R.string.str_addBookSuccess))
+                                }
+
+                                override fun onFail(msg: String) {
+                                    isClick = false
+                                    showSnackBarMsg(view, msg)
+                                }
+                            })
+                    }
+
+                    override fun onFail(msg: String) {
+                        isClick = false
+                        showSnackBarMsg(view, msg)
+                    }
+
+                })
+        }
     }
 }

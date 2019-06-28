@@ -17,16 +17,21 @@ object BookInfoHelper {
             var result: Any? = null
             if (null == bookUrl) {
                 result = urlIsNull
-                return@launch
             }
-            bookUrl.let {
+            bookUrl?.let {
                 val bookInfo = dealBookInfo(bookUrl)
                 if (null == bookInfo) {
                     result = dataIsNull
-                    return@launch
+                    return@let
                 }
-                if (bookInfo.isDataError()) result = dataIsError
-                result = bookInfo
+
+                bookInfo.let {
+                    if (bookInfo.isDataError()) {
+                        result = dataIsError
+                        return@let
+                    }
+                    result = bookInfo
+                }
             }
 
             launch(Dispatchers.Main) {
@@ -57,7 +62,7 @@ object BookInfoHelper {
 
     private fun getListUrl(url: String): String {
         var listUrl = url.replace("book", "booklist")
-        if (listUrl.endsWith("/")) listUrl = listUrl.substring(IntRange(0,listUrl.length - 1))
+        if (listUrl.endsWith("/")) listUrl = listUrl.substring(0, listUrl.length - 1)
         listUrl += ".html"
         return listUrl
     }
