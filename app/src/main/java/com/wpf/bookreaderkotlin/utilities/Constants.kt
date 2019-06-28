@@ -6,6 +6,10 @@
  */
 package com.wpf.bookreaderkotlin.utilities
 
+const val DATABASE_VERSION = 1
+
 const val DATABASE_NAME = "book-reader-db"
 
 const val HOME_BOOK_LINE = 3
+
+const val SYSTEM_USER_ID = 1L

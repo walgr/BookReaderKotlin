@@ -9,6 +9,7 @@ package com.wpf.bookreaderkotlin.mvp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.room.Transaction
 import com.wpf.bookreaderkotlin.data.BookChapterInfo
 import com.wpf.bookreaderkotlin.data.BookChapterInfoRepository
 import com.wpf.bookreaderkotlin.data.BookInfo
@@ -41,9 +42,9 @@ class BookShopViewModel(
         }
     }
 
-    fun insertBookChapterList(bookUrl: String, chapterInfoList: List<BookChapterInfo>) {
+    fun insertBookChapterList(chapterInfoList: List<BookChapterInfo>) {
         viewModelScope.launch {
-            if(bookChapterInfoRepository.getChapterListByBookUrl(bookUrl).)
+            bookChapterInfoRepository.updateChapterList(chapterInfoList)
         }
     }
 }

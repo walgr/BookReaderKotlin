@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 class BookChapterInfoRepository private constructor(private val bookChapterInfoDao: BookChapterInfoDao) {
 
-    fun getChapterListByBookUrl(bookUrl: String): MutableLiveData<BookChapterInfo> =
+    fun getChapterListByBookUrl(bookUrl: String): LiveData<List<BookChapterInfo>> =
         bookChapterInfoDao.getChapterListByBookUrl(bookUrl)
 
     fun getChapterByChapterUrl(bookChapterUrl: String): LiveData<BookChapterInfo> =
@@ -58,6 +58,12 @@ class BookChapterInfoRepository private constructor(private val bookChapterInfoD
     suspend fun updateChapter(chapterInfo: BookChapterInfo) {
         withContext(IO) {
             bookChapterInfoDao.updateChapter(chapterInfo)
+        }
+    }
+
+    suspend fun updateChapterList(chapterInfoList: List<BookChapterInfo>) {
+        withContext(IO) {
+            bookChapterInfoDao.updateChapterList(chapterInfoList)
         }
     }
 

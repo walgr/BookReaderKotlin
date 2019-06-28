@@ -9,15 +9,17 @@ package com.wpf.bookreaderkotlin.mvp.viewmodels
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
+import com.wpf.bookreaderkotlin.data.BookChapterInfoRepository
 import com.wpf.bookreaderkotlin.data.BookInfoRepository
 
 class BookShopViewModelFactory(
     private val loadUrl: LiveData<String>,
-    private val bookInfoRepository: BookInfoRepository
+    private val bookInfoRepository: BookInfoRepository,
+    private val bookChapterInfoRepository: BookChapterInfoRepository
 ) : ViewModelProvider.NewInstanceFactory() {
 
     @Suppress("UNCHECKED_CAST")
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
-        return BookShopViewModel(loadUrl, bookInfoRepository) as T
+        return BookShopViewModel(loadUrl, bookInfoRepository, bookChapterInfoRepository) as T
     }
 }

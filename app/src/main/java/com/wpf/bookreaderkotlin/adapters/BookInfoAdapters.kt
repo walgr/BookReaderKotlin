@@ -19,7 +19,6 @@ fun bindImageFromUrl(view: ImageView, imageUrl: String?) {
     if (!imageUrl.isNullOrEmpty()) {
         Glide.with(context)
             .load(imageUrl)
-            .transition(DrawableTransitionOptions.withCrossFade())
             .into(view)
     }
 }

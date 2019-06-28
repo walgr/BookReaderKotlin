@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.wpf.bookreaderkotlin.data.BookInfo
 import com.wpf.bookreaderkotlin.databinding.ItemBookLayoutBinding
 
-class BookAdapter : ListAdapter<BookInfo, BookAdapter.HomeViewHolder>(BookDiffCallback()) {
+class BookListAdapter : ListAdapter<BookInfo, BookListAdapter.HomeViewHolder>(BookDiffCallback()) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): HomeViewHolder {
         return HomeViewHolder(

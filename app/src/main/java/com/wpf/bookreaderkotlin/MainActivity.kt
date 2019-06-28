@@ -1,13 +1,18 @@
 package com.wpf.bookreaderkotlin
 
+import android.graphics.Color
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentPagerAdapter
 import com.wpf.bookreaderkotlin.adapters.MainViewPagerAdapter
 import com.wpf.bookreaderkotlin.data.BookInfo
 import com.wpf.bookreaderkotlin.utilities.BookInfoHelper
 import kotlinx.android.synthetic.main.activity_main.*
+import com.readystatesoftware.systembartint.SystemBarTintManager
+
+
 
 class MainActivity : BaseActivity() {
 
@@ -32,6 +37,7 @@ class MainActivity : BaseActivity() {
 
     private fun initView() {
         supportActionBar?.hide()
+
         viewPager.setScrollable(false)
         viewPager.adapter = MainViewPagerAdapter(
             fragments,

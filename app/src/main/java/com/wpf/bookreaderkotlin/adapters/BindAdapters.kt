@@ -6,10 +6,19 @@
  */
 package com.wpf.bookreaderkotlin.adapters
 
+import android.graphics.Color
 import android.webkit.WebView
 import androidx.databinding.BindingAdapter
+import de.hdodenhof.circleimageview.CircleImageView
 
 @BindingAdapter("loadUrl")
 fun bindLoadUrl(webView: WebView, loadUrl: String?) {
     webView.loadUrl(loadUrl ?: "")
+}
+
+@BindingAdapter("circleImgFromUrl")
+fun bindCircleViewLoadUrl(circleImageView: CircleImageView,imgUrl: String?) {
+    circleImageView.borderColor = Color.WHITE
+    circleImageView.borderWidth = 3
+    bindImageFromUrl(circleImageView, imgUrl)
 }

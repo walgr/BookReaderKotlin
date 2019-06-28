@@ -12,11 +12,22 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.sqlite.db.SupportSQLiteDatabase
 import com.wpf.bookreaderkotlin.utilities.DATABASE_NAME
+import com.wpf.bookreaderkotlin.utilities.DATABASE_VERSION
+import com.wpf.bookreaderkotlin.utilities.SYSTEM_USER_ID
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
-@Database(entities = [BookChapterInfo::class, BookInfo::class], version = 1, exportSchema = false)
+@Database(entities = [BookInfo::class, BookChapterInfo::class, UserInfo::class], version = DATABASE_VERSION, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
 
     abstract fun getBookInfoDao(): BookInfoDao
+
+    abstract fun getBookChapterInfoDao(): BookChapterInfoDao
+
+    abstract fun getUserInfoDao(): UserInfoDao
 
     companion object {
 
@@ -35,9 +46,23 @@ abstract class AppDatabase : RoomDatabase() {
                     override fun onCreate(db: SupportSQLiteDatabase) {
                         super.onCreate(db)
                         //数据库创建时初始化数据
-
+                        GlobalScope.launch {
+                            withContext(IO) {
+                                getInstance(context.applicationContext)
+                                    .getUserInfoDao().addUser(buildExampleUser())
+                            }
+                        }
                     }
                 }).build()
+        }
+
+        private fun buildExampleUser(): UserInfo {
+            return UserInfo(
+                SYSTEM_USER_ID,
+                "系统用户",
+                "小机器",
+                "http://image.biaobaiju.com/uploads/20180802/03/1533150393-nMJhlBfqWL.jpg"
+            )
         }
     }
 }

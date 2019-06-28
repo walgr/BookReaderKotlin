@@ -52,10 +52,16 @@ interface BookChapterInfoDao {
     fun updateChapter(chapterInfo: BookChapterInfo)
 
     /**
+     * 更新一些章节
+     */
+    @Update
+    fun updateChapterList(chapterInfoList: List<BookChapterInfo>)
+
+    /**
      * 根据小说地址查询所有章节
      */
     @Query("SELECT * FROM BookChapterInfo WHERE book_id = (:bookUrl)")
-    fun getChapterListByBookUrl(bookUrl: String): MutableLiveData<BookChapterInfo>
+    fun getChapterListByBookUrl(bookUrl: String): LiveData<List<BookChapterInfo>>
 
     /**
      * 根据章节地址查询章节内容

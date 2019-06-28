@@ -15,6 +15,7 @@ import android.webkit.WebViewClient
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
+import com.wpf.bookreaderkotlin.adapters.bindLoadUrl
 import com.wpf.bookreaderkotlin.data.BookChapterInfo
 import com.wpf.bookreaderkotlin.data.BookInfo
 import com.wpf.bookreaderkotlin.databinding.FragmentShopBinding
@@ -31,7 +32,8 @@ class BookShopFragment : BaseFragment() {
     private val viewModel: BookShopViewModel by viewModels {
         InjectorUtils.provideShopUrlViewModelFactory(
             MutableLiveData(shopUrl),
-            InjectorUtils.getBookInfoRepository(requireContext())
+            InjectorUtils.getBookInfoRepository(requireContext()),
+            InjectorUtils.getBookChapterInfoRepository(requireContext())
         )
     }
 
@@ -51,7 +53,7 @@ class BookShopFragment : BaseFragment() {
 
     private fun subscribeUi(binding: FragmentShopBinding) {
         viewModel.loadUrl.observe(viewLifecycleOwner, Observer<String> { loadUrl ->
-            binding.shopWeb.loadUrl(loadUrl)
+            bindLoadUrl(binding.shopWeb,loadUrl)
         })
 
         binding.clickListener = createOnClickListener()
@@ -75,6 +77,7 @@ class BookShopFragment : BaseFragment() {
                             object : BookChapterHelper.OnGetBookChapterFinish {
                                 override fun onSuccess(result: List<BookChapterInfo>) {
                                     isClick = false
+                                    viewModel.insertBookChapterList(result)
                                     showSnackBarMsg(view, getString(R.string.str_addBookSuccess))
                                 }
 
